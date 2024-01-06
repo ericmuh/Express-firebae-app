@@ -18,6 +18,10 @@ const db = firebaseAdmin.firestore();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public")); // Serve static files from 'public' directory
 
+// Set EJS as the view engine
+app.set('view engine', 'ejs');
+app.set('views', __dirname + '/public');
+
 // Routes
 app.get("/", (req, res) => {
   // Fetch user info from Firebase
@@ -56,28 +60,24 @@ app.post("/login", (req, res) => {
     });
 });
 
-app.post("/register", (req, res) => {
-  const userData = req.body;
-  // Save user data to Firebase Firestore
-  db.collection("users")
-    .add(userData)
-    .then((docRef) => {
-      res.redirect("/");
-    })
-    .catch((error) => {
-      res.send("Registration Failed");
-    });
-});
+app.route("/register")
+  .get((req, res) => {
+    res.render("register");
+  })
+  .post((req, res) => {
+    const userData = req.body;
+    // Save user data to Firebase Firestore
+    db.collection("users")
+      .add(userData)
+      .then((docRef) => {
+        res.redirect("/");
+      })
+      .catch((error) => {
+        res.send("Registration Failed");
+      });
+  });
 
-//Login pages Get
-app.get("/registration", (req, res) => {
-  res.render("register");
-});
 
-//Register pages Get
-app.get("/signup", (req, res) => {
-  res.render("login");
-});
 
 
 // Start the server
