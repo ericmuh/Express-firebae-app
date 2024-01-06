@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Registration</title>
+</head>
+
+<body>
+    <h1>Registration</h1>
+    <form action="/registration_submit" method="POST">
+        <input type="text" name="name" placeholder="Name" required><br><br>
+        <input type="email" name="email" placeholder="Email" required><br><br>
+        <input type="tel" name="phone" placeholder="Phone" required><br><br>
+        <input type="text" name="gender" placeholder="Gender" required><br><br>
+        <input type="text" name="address" placeholder="Address" required><br><br>
+        <input type="text" name="nextOfKin" placeholder="Next of Kin" required><br><br>
+        <input type="date" name="dob" placeholder="Date of Birth" required><br><br>
+        <input type="password" name="password" placeholder="Password" required><br><br>
+        <button type="submit">Register</button>
+    </form>
+
+    <script>
+        document.querySelector('form').addEventListener('submit', function (event) {
+            event.preventDefault();
+            var formData = new FormData(event.target);
+            fetch('/register', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        // Display error message
+                        document.querySelector('#error').textContent = data.error;
+                    } else {
+                        // Redirect to home page
+                        window.location.href = '/';
+                    }
+                });
+        });
+    </script>
+</body>
+
+</html>

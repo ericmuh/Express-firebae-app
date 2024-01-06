@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Home</title>
+</head>
+
+<body>
+    <h1>Welcome to the Home Page</h1>
+    <!-- Display user information here -->
+    <div id="name"></div>
+    <div id="age"></div>
+    <div id="email"></div>
+
+    <script>
+        fetch('/user')
+            .then(response => response.json())
+            .then(user => {
+                // Display user information
+                document.querySelector('#name').textContent = user.name;
+                document.querySelector('#age').textContent = user.age;
+                document.querySelector('#email').textContent = user.email;
+                
+            });
+    </script>
+</body>
+
+</html>
